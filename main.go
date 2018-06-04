@@ -77,6 +77,8 @@ func searchmovies(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	static := http.FileServer(http.Dir("static"))
+	http.Handle("/", static)
 	http.HandleFunc("/searchmovies/", searchmovies)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
