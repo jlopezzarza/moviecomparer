@@ -1,17 +1,19 @@
-var searchMovies = function() {
+var searchMovies = function(event) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            formatSearchResults(this.responseText);
+            formatSearchResults(this.responseText, event.target.id);
         }
     };
-    param = document.getElementById("movie1").value;
+    param = document.getElementById(event.target.id).value;
     xhttp.open("GET", "searchmovies/" + param, true);
     xhttp.send();
 };
 
-var formatSearchResults = function(moviesResult) {
-    var table = document.getElementById("results");
+var formatSearchResults = function(moviesResult, id) {
+    var resId = id.replace("movie", "results");
+    var table = document.getElementById(resId);
+    console.log("TABLE: ", table)
     var jmovies = JSON.parse(moviesResult);
     for (var i in jmovies.results) {
         var row = table.insertRow();
