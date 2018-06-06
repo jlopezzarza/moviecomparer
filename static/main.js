@@ -13,7 +13,6 @@ var searchMovies = function(event) {
 var formatSearchResults = function(moviesResult, id) {
     var resId = id.replace("movie", "results");
     var table = document.getElementById(resId);
-    console.log("TABLE: ", table)
     var jmovies = JSON.parse(moviesResult);
     for (var i in jmovies.results) {
         var row = table.insertRow();
