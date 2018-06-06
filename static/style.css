@@ -24,31 +24,16 @@ body {
 }
 
 .centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     text-align: center;
 }
 
-.centered img {
-    width: 150px;
-    border-radius: 50%;
-}
-
 table, td, th {
+    transform: none;
     border: 1px solid black;
     vertical-align: middle;
     text-overflow: ellipsis;
-}
-
-table {
+    overflow: auto;
     border-collapse: collapse;
-    width: 80%;
-}
-
-th {
-    height: 50px;
 }
 
 .hidden {
