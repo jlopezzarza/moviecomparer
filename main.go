@@ -46,13 +46,11 @@ func (movie *movie) searchcast() {
 	if err := json.Unmarshal(body, &data); err != nil {
 		fmt.Println("Search Cast - error with the json: ", err)
 	}
-	//reflect.ValueOf(&movie).Elem().FieldByName("Cast").Set()
 	movie.Cast = data.Cast
 	return
 }
 
 func searchmovies(w http.ResponseWriter, r *http.Request) {
-	//func searchmovies(searchpar string) {
 	searchpar := r.URL.Path[len("/searchmovies/"):]
 	if searchpar == "" {
 		fmt.Fprintf(w, "Empty query")
