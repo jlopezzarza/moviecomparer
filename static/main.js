@@ -14,18 +14,24 @@ var formatSearchResults = function(moviesResult, id) {
     var resId = id.replace("movie", "results");
     var table = document.getElementById(resId);
     var jmovies = JSON.parse(moviesResult);
-    for (var i in jmovies.results) {
-        var row = table.insertRow();
-        var movie = row.insertCell(0);
-        var releaseDate = row.insertCell(1);
-        var castSumm = row.insertCell(2);
-        movie.innerHTML = jmovies.results[i].title;
-        releaseDate.innerHTML = jmovies.results[i].release_date;
-        var cast = "";
-        for (var m in jmovies.results[i].Cast) {
-            cast += jmovies.results[i].Cast[m].name;
+    if (jmovies.results == null) {
+        var tableContainer = table.parentNode;
+        tableContainer.innerHTML = "No results!";
+        tableContainer.style.visibility = "visible";
+    } else {
+        for (var i in jmovies.results) {
+            var row = table.insertRow();
+            var movie = row.insertCell(0);
+            var releaseDate = row.insertCell(1);
+            var castSumm = row.insertCell(2);
+            movie.innerHTML = jmovies.results[i].title;
+            releaseDate.innerHTML = jmovies.results[i].release_date;
+            var cast = "";
+            for (var m in jmovies.results[i].Cast) {
+                cast += jmovies.results[i].Cast[m].name;
+            };
+            castSumm.innerHTML = cast;
         };
-        castSumm.innerHTML = cast;
+        table.style.visibility = "visible";
     };
-    table.style.visibility = "visible";
 };
