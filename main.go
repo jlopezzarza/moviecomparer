@@ -63,9 +63,6 @@ func searchmovies(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Search movie - movieresults - json error: ", err)
 		return
 	}
-	for i := 0; i < len(data.Results); i++ {
-		data.Results[i].searchcast()
-	}
 	result, err := json.Marshal(&data)
 	if err != nil {
 		fmt.Println("Search movie - resulsts - json error: ", err)

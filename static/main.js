@@ -23,14 +23,8 @@ var formatSearchResults = function(moviesResult, id) {
             var row = table.insertRow();
             var movie = row.insertCell(0);
             var releaseDate = row.insertCell(1);
-            var castSumm = row.insertCell(2);
             movie.innerHTML = jmovies.results[i].title;
             releaseDate.innerHTML = jmovies.results[i].release_date;
-            var cast = "";
-            for (var m in jmovies.results[i].Cast) {
-                cast += jmovies.results[i].Cast[m].name;
-            };
-            castSumm.innerHTML = cast;
         };
         table.style.visibility = "visible";
     };
