@@ -29,7 +29,7 @@ body {
 
 table, td, th {
     transform: none;
-    border: 1px solid black;
+    border-top: 1px  black;
     vertical-align: middle;
     text-overflow: ellipsis;
     overflow: auto;
