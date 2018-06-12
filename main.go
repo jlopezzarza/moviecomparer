@@ -39,7 +39,7 @@ func getdata(url string) (body []byte) {
 	return
 }
 
-func (movie *movie) searchcast() {
+func (movie *movie) getcast() {
 	url := fmt.Sprintf("https://api.themoviedb.org/3/movie/%f/credits?api_key=%s", movie.ID, os.Getenv("TMDB_KEY"))
 	body := getdata(url)
 	var data castresult
@@ -48,6 +48,37 @@ func (movie *movie) searchcast() {
 	}
 	movie.Cast = data.Cast
 	return
+}
+
+func (movie *movie) getinfo() {
+	url := fmt.Sprintf("https://api.themoviedb.org/3/movie/%f?api_key=%s", movie.ID, os.Getenv("TMDB_KEY"))
+	body := getdata(url)
+	if err := json.Unmarshal(body, &movie); err != nil {
+		fmt.Println("Search movie - movieresults - json error: ", err)
+		return
+	}
+	movie.getcast()
+	return
+}
+
+func searchcast(w http.ResponseWriter, r *http.Request) {
+	body, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	var m movie
+	if err := json.Unmarshal(body, &m); err != nil {
+		fmt.Println("Search cast - unmarshal - json error: ", err)
+		return
+	}
+	m.getinfo()
+	result, err := json.Marshal(&m)
+	if err != nil {
+		fmt.Println("Search cast - marshal - json error: ", err)
+	}
+	fmt.Fprintf(w, string(result))
 }
 
 func searchmovies(w http.ResponseWriter, r *http.Request) {
@@ -75,5 +106,6 @@ func main() {
 	static := http.FileServer(http.Dir("static"))
 	http.Handle("/", static)
 	http.HandleFunc("/searchmovies/", searchmovies)
+	http.HandleFunc("/searchcast/", searchcast)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
