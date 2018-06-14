@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 type movie struct {
@@ -61,22 +62,21 @@ func (movie *movie) getinfo() {
 	return
 }
 
-func searchcast(w http.ResponseWriter, r *http.Request) {
-	body, err := ioutil.ReadAll(r.Body)
-	defer r.Body.Close()
+func movieInfo(w http.ResponseWriter, r *http.Request) {
+	searchpar := r.URL.Path[len("/searchmovies/"):]
+	if searchpar == "" {
+		fmt.Fprintf(w, "Empty query")
+		return
+	}
+	id, err := strconv.ParseFloat(searchpar, 64)
 	if err != nil {
-		http.Error(w, err.Error(), 500)
-		return
+		fmt.Println("Movie Info - could not parse float: ", err)
 	}
-	var m movie
-	if err := json.Unmarshal(body, &m); err != nil {
-		fmt.Println("Search cast - unmarshal - json error: ", err)
-		return
-	}
+	m := movie{ID: id}
 	m.getinfo()
 	result, err := json.Marshal(&m)
 	if err != nil {
-		fmt.Println("Search cast - marshal - json error: ", err)
+		fmt.Println("Movie Info - marshal - json error: ", err)
 	}
 	fmt.Fprintf(w, string(result))
 }
@@ -106,6 +106,6 @@ func main() {
 	static := http.FileServer(http.Dir("static"))
 	http.Handle("/", static)
 	http.HandleFunc("/searchmovies/", searchmovies)
-	http.HandleFunc("/searchcast/", searchcast)
+	http.HandleFunc("/movieinfo/", movieInfo)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
