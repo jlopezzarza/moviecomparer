@@ -11,8 +11,10 @@ var searchMovies = function(event) {
 };
 
 var formatSearchResults = function(moviesResult, id) {
-    var resId = id.replace("movie", "results");
-    var table = document.getElementById(resId);
+    var table = document.getElementById(id.replace("movie", "results"));
+    for (var result of table.rows) {
+        if (result.classList.contains("result-row")) { result.remove(); }
+    }
     var jmovies = JSON.parse(moviesResult);
     if (jmovies.results == null) {
         var tableContainer = table.parentNode;
@@ -22,7 +24,7 @@ var formatSearchResults = function(moviesResult, id) {
         var counter = 0;
         for (var i in jmovies.results) {
             var row = table.insertRow();
-            row.id = counter;
+            row.classList.add("result-row");
             var movie = row.insertCell(0);
             var releaseDate = row.insertCell(1);
             var select = row.insertCell(2);
