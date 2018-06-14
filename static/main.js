@@ -49,11 +49,8 @@ var searchCast = function(id) {
             console.log(this.response);
         }
     };
-    xhttp.open("GET", "searchcast/", true);
-    xhttp.setRequestHeader("Content-type", "application/json");
-    xhttp.responseType = "json";
-    var body = '{"id": ' + id + ' }';
-    xhttp.send(body);
+    xhttp.open("GET", "movieinfo/" + id, true);
+    xhttp.send();
 };
 
 var formatTarget = function(event) {
