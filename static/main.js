@@ -12,16 +12,13 @@ var searchMovies = function(event) {
 
 var formatSearchResults = function(moviesResult, id) {
     var table = document.getElementById(id.replace("movie", "results"));
-    for (var result of table.rows) {
-        if (result.classList.contains("result-row")) { result.remove(); }
-    }
+    cleanTable(table);
     var jmovies = JSON.parse(moviesResult);
     if (jmovies.results == null) {
         var tableContainer = table.parentNode;
         tableContainer.innerHTML = "No results!";
         tableContainer.style.visibility = "visible";
     } else {
-        var counter = 0;
         for (var i in jmovies.results) {
             var row = table.insertRow();
             row.classList.add("result-row");
@@ -38,7 +35,6 @@ var formatSearchResults = function(moviesResult, id) {
                 formatTarget(event);
             };
             select.appendChild(btn);
-            counter++;
         }
         table.style.visibility = "visible";
     }
@@ -57,4 +53,10 @@ var searchCast = function(id) {
 
 var formatTarget = function(event) {
     searchCast(event.target.name);
-}
+};
+
+var cleanTable = function(table) {
+    for (var i = table.rows.length - 1; i > 0; i--) {
+        table.deleteRow(i);
+    }
+};
