@@ -9,10 +9,10 @@
 
 <body>
     <div class="split left">
-        <div class="centered">
+        <div class="centered" id="left-body">
             <input id="movie-left" type="text" name="movie1" onchange="searchMovies(event)" >
             <div class="hidden">
-                <table id="results-left">
+                <table id="results-left" data-align="left">
                     <tr class="table-header">
                         <th>Movie</th>
                         <th>Release Date</th>
@@ -23,10 +23,10 @@
         </div>
     </div>
     <div class="split right">
-        <div class="centered">
+        <div class="centered" id="right-body">
             <input id="movie-right" type="text" name="movie2" onchange="searchMovies(event)" >
             <div class="hidden">
-                <table id="results-right">
+                <table id="results-right" data-align="right">
                     <tr class="table-header">
                         <th>Movie</th>
                         <th>Release Date</th>

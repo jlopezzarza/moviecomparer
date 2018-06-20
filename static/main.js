@@ -12,7 +12,7 @@ var searchMovies = function(event) {
 
 var formatSearchResults = function(moviesResult, id) {
     var table = document.getElementById(id.replace("movie", "results"));
-    cleanTable(table);
+    cleanData(table);
     var jmovies = JSON.parse(moviesResult);
     if (jmovies.results == null) {
         var tableContainer = table.parentNode;
@@ -30,7 +30,8 @@ var formatSearchResults = function(moviesResult, id) {
             let btn = document.createElement("input");
             btn.type = "button";
             btn.value = "+";
-            btn.name = jmovies.results[i].id;
+            btn.dataset.id = jmovies.results[i].id;
+            btn.dataset.align = table.dataset.align;
             btn.onclick = function(event) {
                 formatTarget(event);
             };
@@ -40,22 +41,34 @@ var formatSearchResults = function(moviesResult, id) {
     }
 };
 
-var searchCast = function(id) {
+var formatTarget = function(event) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.response);
+            formatMovie(this.response, event.target.dataset.align);
+            return;
         }
     };
-    xhttp.open("GET", "movieinfo/" + id, true);
+    xhttp.open("GET", "movieinfo/" + event.target.dataset.id, true);
     xhttp.send();
 };
 
-var formatTarget = function(event) {
-    searchCast(event.target.name);
+var formatMovie = function(data, side) {
+    let movie = document.createElement("h2");
+    let castList = document.createElement("ul");
+    let res = JSON.parse(data);
+    movie.innerHTML = res.title + ' ' + res.release_date;
+    for (let cast of res.Cast) {
+        let row = document.createElement("li");
+        row.appendChild(document.createTextNode(cast.name));
+        castList.appendChild(row);
+    }
+    movie.appendChild(castList);
+    document.getElementById(side + "-body").appendChild(movie);
+    document.getElementById("results-" + side).style.display = "none";
 };
 
-var cleanTable = function(table) {
+var cleanData = function(table) {
     for (var i = table.rows.length - 1; i > 0; i--) {
         table.deleteRow(i);
     }
