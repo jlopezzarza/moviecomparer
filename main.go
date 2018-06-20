@@ -63,7 +63,7 @@ func (movie *movie) getinfo() {
 }
 
 func movieInfo(w http.ResponseWriter, r *http.Request) {
-	searchpar := r.URL.Path[len("/searchmovies/"):]
+	searchpar := r.URL.Path[len("/movieinfo/"):]
 	if searchpar == "" {
 		fmt.Fprintf(w, "Empty query")
 		return
