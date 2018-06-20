@@ -36,6 +36,6 @@ table, td, th {
     border-collapse: collapse;
 }
 
-.hidden {
-    visibility: hidden;
+.results {
+    display: none;
 }

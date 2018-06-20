@@ -11,13 +11,15 @@ var searchMovies = function(event) {
 };
 
 var formatSearchResults = function(moviesResult, id) {
-    var table = document.getElementById(id.replace("movie", "results"));
+    let side = id.replace("movie-", "");
+    var table = document.getElementById("results-" + side);
     cleanData(table);
     var jmovies = JSON.parse(moviesResult);
     if (jmovies.results == null) {
-        var tableContainer = table.parentNode;
-        tableContainer.innerHTML = "No results!";
-        tableContainer.style.visibility = "visible";
+        let board = document.getElementById(side + "-board-");
+        board.innerHTML = "No results!";
+        board.style.display = "flex";
+
     } else {
         for (var i in jmovies.results) {
             var row = table.insertRow();
@@ -37,7 +39,7 @@ var formatSearchResults = function(moviesResult, id) {
             };
             select.appendChild(btn);
         }
-        table.style.visibility = "visible";
+        table.style.display = "flex";
     }
 };
 
