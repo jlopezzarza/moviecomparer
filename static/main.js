@@ -13,7 +13,7 @@ var searchMovies = function(event) {
 var formatSearchResults = function(moviesResult, id) {
     let side = id.replace("movie-", "");
     var table = document.getElementById("results-" + side);
-    cleanData(table);
+    cleanData(side);
     var jmovies = JSON.parse(moviesResult);
     if (jmovies.results == null) {
         let board = document.getElementById(side + "-board-");
@@ -66,12 +66,18 @@ var formatMovie = function(data, side) {
         castList.appendChild(row);
     }
     movie.appendChild(castList);
-    document.getElementById(side + "-body").appendChild(movie);
+    document.getElementById(side + "-board").appendChild(movie);
+    document.getElementById(side + "-board").style.display = "flex";
     document.getElementById("results-" + side).style.display = "none";
 };
 
-var cleanData = function(table) {
+var cleanData = function(side) {
+    let table = document.getElementById("results-" + side);
     for (var i = table.rows.length - 1; i > 0; i--) {
         table.deleteRow(i);
+    }
+    let board = document.getElementById(side + "-board");
+    while (board.firstChild) {
+        board.removeChild(board.firstChild);
     }
 };
