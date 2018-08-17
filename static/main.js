@@ -16,10 +16,9 @@ var formatSearchResults = function(moviesResult, id) {
     cleanData(side);
     var jmovies = JSON.parse(moviesResult);
     if (jmovies.results == null) {
-        let board = document.getElementById(side + "-board-");
+        let board = document.getElementById(side + "-board");
         board.innerHTML = "No results!";
         board.style.display = "flex";
-
     } else {
         for (var i in jmovies.results) {
             var row = table.insertRow();
@@ -29,9 +28,14 @@ var formatSearchResults = function(moviesResult, id) {
             var select = row.insertCell(2);
             movie.innerHTML = jmovies.results[i].title;
             releaseDate.innerHTML = jmovies.results[i].release_date;
-            let btn = document.createElement("input");
-            btn.type = "button";
-            btn.value = "+";
+            let btn = document.createElement("a");
+            btn.className = "button";
+            icon_span = document.createElement("span");
+            icon_span.className = "icon is-small" ;
+            icon = document.createElement("i");
+            icon.className = "fas fa-play";
+            icon_span.appendChild(icon);
+            btn.appendChild(icon_span);
             btn.dataset.id = jmovies.results[i].id;
             btn.dataset.align = table.dataset.align;
             btn.onclick = function(event) {

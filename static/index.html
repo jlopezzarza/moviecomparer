@@ -4,12 +4,15 @@
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="utf-8" http-equiv="encoding">
     <script src="main.js"></script>
-    <link rel="stylesheet" href="bulma.min.css" media="screen" />
+    <link href="style.css" media="screen" rel="stylesheet" />
+    <link href="bulma.min.css" media="screen" rel="stylesheet" />
+    <link href="/fontawesome/css/fontawesome.css" rel="stylesheet">
+    <link href="/fontawesome/css/solid.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
-    <section class="hero has-background-warning">
+    <section class="hero is-primary is-bold">
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
@@ -21,8 +24,8 @@
             </div>
         </div>
     </section>
-        <nav class="level">
-            <div class="level-item has-text-centered has-background-link">
+        <div class="columns">
+            <div class="column is-half has-text-centered has-background-link">
                 <div id="left-body">
                     <div class="control">
                         <input  class="input is-focused" id="movie-left" type="text" name="movie1" onchange="searchMovies(event)" >
@@ -41,13 +44,13 @@
                     </div>
                 </div>
             </div>
-            <div class="level-item has-text-centered has-background-info">
+            <div class="column is-half has-text-centered has-background-link">
                 <div class="centered" id="right-body">
                     <div class="control">
                         <input  class="input is-focused" id="movie-right" type="text" name="movie2" onchange="searchMovies(event)" >
                     </div>
                     <div class="results">
-                        <div id="right-board"class="results"></div>
+                        <div id="right-board" class="results"></div>
                         <div>
                             <table id="results-right" data-align="right" class="results">
                                 <tr class="table-header">
@@ -60,6 +63,5 @@
                     </div>
                 </div>
             </div>
-        </nav>
-    </div>
+        </div>
 </body>
