@@ -24,42 +24,43 @@
             </div>
         </div>
     </section>
+    <p></p>
         <div class="columns">
-            <div class="column is-half has-text-centered has-background-link">
+            <div class="column is-half has-text-centered">
                 <div id="left-body">
                     <div class="control">
-                        <input  class="input is-focused" id="movie-left" type="text" name="movie1" onchange="searchMovies(event)" >
+                        <input  class="input is-rounded" id="movie-left" type="text" name="movie1" onchange="searchMovies(event)" >
                     </div>
                     <div>
-                        <div id="left-board" class="results"></div>
-                        <div>
-                            <table id="results-left" data-align="left" class="results">
-                                <tr class="table-header">
-                                    <th>Movie</th>
-                                    <th>Release Date</th>
-                                    <th>Select</th>
-                                </tr>
+                        <div id="left-board" class="results content"></div>
+                            <table id="results-left" data-align="left" class="results table is-fullwidth">
+                                <thead>
+                                    <tr class="table-header">
+                                        <th>Movie</th>
+                                        <th>Released</th>
+                                        <th>Select</th>
+                                    </tr>
+                                </thead>
                             </table>
-                        </div>
                     </div>
                 </div>
             </div>
-            <div class="column is-half has-text-centered has-background-link">
+            <div class="column is-half has-text-centered">
                 <div class="centered" id="right-body">
                     <div class="control">
-                        <input  class="input is-focused" id="movie-right" type="text" name="movie2" onchange="searchMovies(event)" >
+                        <input  class="input is-rounded" id="movie-right" type="text" name="movie2" onchange="searchMovies(event)" >
                     </div>
                     <div class="results">
-                        <div id="right-board" class="results"></div>
-                        <div>
-                            <table id="results-right" data-align="right" class="results">
-                                <tr class="table-header">
-                                    <th>Movie</th>
-                                    <th>Release Date</th>
-                                    <th>Select</th>
-                                </tr>
+                        <div id="right-board" class="results content"></div>
+                            <table id="results-right" data-align="right" class="results table is-fullwidth">
+                                <thead>
+                                    <tr class="table-header">
+                                        <th>Movie</th>
+                                        <th>Released</th>
+                                        <th>Select</th>
+                                    </tr>
+                                </thead>
                             </table>
-                        </div>
                     </div>
                 </div>
             </div>
