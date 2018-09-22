@@ -16,10 +16,9 @@ var formatSearchResults = function(moviesResult, id) {
     cleanData(side);
     var jmovies = JSON.parse(moviesResult);
     if (jmovies.results == null) {
-        let board = document.getElementById(side + "-board-");
+        let board = document.getElementById(side + "-board");
         board.innerHTML = "No results!";
         board.style.display = "flex";
-
     } else {
         for (var i in jmovies.results) {
             var row = table.insertRow();
@@ -29,9 +28,14 @@ var formatSearchResults = function(moviesResult, id) {
             var select = row.insertCell(2);
             movie.innerHTML = jmovies.results[i].title;
             releaseDate.innerHTML = jmovies.results[i].release_date;
-            let btn = document.createElement("input");
-            btn.type = "button";
-            btn.value = "+";
+            let btn = document.createElement("a");
+            btn.className = "button";
+            icon_span = document.createElement("span");
+            icon_span.className = "icon is-small";
+            icon = document.createElement("i");
+            icon.className = "fas fa-play";
+            icon_span.appendChild(icon);
+            btn.appendChild(icon_span);
             btn.dataset.id = jmovies.results[i].id;
             btn.dataset.align = table.dataset.align;
             btn.onclick = function(event) {
@@ -47,27 +51,41 @@ var formatTarget = function(event) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            formatMovie(this.response, event.target.dataset.align);
+            formatMovie(this.response, event.target.offsetParent.dataset.align);
             return;
         }
     };
-    xhttp.open("GET", "movieinfo/" + event.target.dataset.id, true);
+    xhttp.open("GET", "movieinfo/" + event.target.offsetParent.dataset.id, true);
     xhttp.send();
 };
 
 var formatMovie = function(data, side) {
+    let results = document.createElement("section");
+    results.className = "movieresult";
+    let resdiv = document.createElement("div");
     let movie = document.createElement("h2");
     let castList = document.createElement("ul");
     let res = JSON.parse(data);
+    let board = document.getElementById(side + "-board");
     movie.innerHTML = res.title + ' ' + res.release_date;
-    for (let cast of res.Cast) {
+    movie.className = "title";
+    castList.className = "subtitle";
+    if (res.Cast == null) {
         let row = document.createElement("li");
-        row.appendChild(document.createTextNode(cast.name));
+        row.appendChild(document.createTextNode("No results"));
         castList.appendChild(row);
+    } else {
+        for (let cast of res.Cast) {
+            let row = document.createElement("li");
+            row.appendChild(document.createTextNode(cast.name));
+            castList.appendChild(row);
+        }
     }
-    movie.appendChild(castList);
-    document.getElementById(side + "-board").appendChild(movie);
-    document.getElementById(side + "-board").style.display = "flex";
+    resdiv.appendChild(movie);
+    resdiv.appendChild(castList);
+    results.appendChild(resdiv)
+    board.appendChild(results);
+    board.style.display = "flex";
     document.getElementById("results-" + side).style.display = "none";
 };
 

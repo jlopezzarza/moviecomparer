@@ -1,41 +1,16 @@
-body {
-    font-family: Arial;
-    color: white;
+html, body {
+  height: 100%;
 }
 
-.split {
-    height: 100%;
-    width: 50%;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    overflow-x: hidden;
-    padding-top: 20px;
-}
-
-.left {
-    left: 0;
-    background-color: rgb(159, 228, 211);
-}
-
-.right {
-    right: 0;
-    background-color: rgb(255, 242, 126);
-}
-
-.centered {
-    text-align: center;
-}
-
-table, td, th {
-    transform: none;
-    border-top: 1px  black;
-    vertical-align: middle;
-    text-overflow: ellipsis;
-    overflow: auto;
-    border-collapse: collapse;
+.columns {
+  min-height: 100%;
 }
 
 .results {
-    display: none;
+  display: none;
+  min-width: 100%;
+}
+
+.movieresult {
+  min-width: 100%;
 }
