@@ -60,11 +60,16 @@ var formatTarget = function(event) {
 };
 
 var formatMovie = function(data, side) {
+    let results = document.createElement("section");
+    results.className = "movieresult";
+    let resdiv = document.createElement("div");
     let movie = document.createElement("h2");
     let castList = document.createElement("ul");
     let res = JSON.parse(data);
     let board = document.getElementById(side + "-board");
     movie.innerHTML = res.title + ' ' + res.release_date;
+    movie.className = "title";
+    castList.className = "subtitle";
     if (res.Cast == null) {
         let row = document.createElement("li");
         row.appendChild(document.createTextNode("No results"));
@@ -76,8 +81,10 @@ var formatMovie = function(data, side) {
             castList.appendChild(row);
         }
     }
-    board.appendChild(movie);
-    board.appendChild(castList)
+    resdiv.appendChild(movie);
+    resdiv.appendChild(castList);
+    results.appendChild(resdiv)
+    board.appendChild(results);
     board.style.display = "flex";
     document.getElementById("results-" + side).style.display = "none";
 };
