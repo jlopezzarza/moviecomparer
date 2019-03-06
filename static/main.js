@@ -6,7 +6,7 @@ var searchMovies = function(event) {
         }
     };
     param = document.getElementById(event.target.id).value;
-    xhttp.open("GET", "searchmovies/" + param, true);
+    xhttp.open("GET", encodeURI("searchmovies/" + param), true);
     xhttp.send();
 };
 
@@ -55,7 +55,7 @@ var formatTarget = function(event) {
             return;
         }
     };
-    xhttp.open("GET", "movieinfo/" + event.target.offsetParent.dataset.id, true);
+    xhttp.open("GET", encodeURI("movieinfo/" + event.target.offsetParent.dataset.id), true);
     xhttp.send();
 };
 

@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"strconv"
 )
@@ -63,7 +64,10 @@ func (movie *movie) getinfo() {
 }
 
 func movieInfo(w http.ResponseWriter, r *http.Request) {
-	searchpar := r.URL.Path[len("/movieinfo/"):]
+	searchpar, err := url.QueryUnescape(r.URL.Path[len("/movieinfo/"):])
+	if err != nil {
+		fmt.Println("Movie info - fatal queryescape: ", err)
+	}
 	if searchpar == "" {
 		fmt.Fprintf(w, "Empty query")
 		return
@@ -82,12 +86,15 @@ func movieInfo(w http.ResponseWriter, r *http.Request) {
 }
 
 func searchmovies(w http.ResponseWriter, r *http.Request) {
-	searchpar := r.URL.Path[len("/searchmovies/"):]
+	searchpar, err := url.QueryUnescape(r.URL.Path[len("/searchmovies/"):])
+	if err != nil {
+		fmt.Println("Search movie - fatal queryescape: ", err)
+	}
 	if searchpar == "" {
 		fmt.Fprintf(w, "Empty query")
 		return
 	}
-	url := fmt.Sprintf("https://api.themoviedb.org/3/search/movie?api_key=%s&query=%s", os.Getenv("TMDB_KEY"), searchpar)
+	url := fmt.Sprintf("https://api.themoviedb.org/3/search/movie?api_key=%s&query=%s", os.Getenv("TMDB_KEY"), url.QueryEscape(searchpar))
 	body := getdata(url)
 	var data moviesresults
 	if err := json.Unmarshal(body, &data); err != nil {
