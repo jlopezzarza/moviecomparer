@@ -70,6 +70,7 @@ var formatMovie = function(data, side) {
     movie.innerHTML = res.title + ' ' + res.release_date;
     movie.className = "title";
     castList.className = "subtitle";
+    castList.id = "resultlist-" + side;
     if (res.Cast == null) {
         let row = document.createElement("li");
         row.appendChild(document.createTextNode("No results"));
@@ -77,6 +78,7 @@ var formatMovie = function(data, side) {
     } else {
         for (let cast of res.Cast) {
             let row = document.createElement("li");
+            row.dataset.id = cast.id;
             row.appendChild(document.createTextNode(cast.name));
             castList.appendChild(row);
         }
@@ -87,6 +89,46 @@ var formatMovie = function(data, side) {
     board.appendChild(results);
     board.style.display = "flex";
     document.getElementById("results-" + side).style.display = "none";
+    let matches = matchData();
+    if (matches) {
+        highlightMatches(matches);
+    }
+};
+
+var matchData = function() {
+    const getresults = function(side) {
+        let reslist = document.getElementById("resultlist-" + side );
+        if ( reslist ) {
+            let resarr = [];
+            for (let res of reslist.childNodes) {
+                resarr.push(res.dataset.id);
+            }
+            return resarr
+        }
+    };
+    let resleft = getresults("left");
+    let resright = getresults("right");
+    if (resright && resleft) {
+        const matches = resleft.filter(element => resright.includes(element));
+        return matches
+    }
+};
+
+var highlightMatches = function(matches) {
+    const cleanLists = function(side, matches) {
+        let reslist = document.getElementById("resultlist-" + side );
+        if (reslist) {
+            for (let res of reslist.childNodes) {
+                if ( matches.indexOf(res.dataset.id) == "-1" ) {
+                    res.style.color = "#BDBDBD";
+                } else {
+                    res.parentNode.insertBefore(res, reslist.childNodes[0]);
+                }
+            }
+        }
+    };
+    cleanLists("right", matches);
+    cleanLists("left", matches);
 };
 
 var cleanData = function(side) {
