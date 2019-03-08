@@ -4,7 +4,7 @@ const Navbar = () => {
     return(
         <div className="navbar-fixed">
             <nav className="nav-wrapper center-align">
-                <p >MovieComparer</p>
+                <h5>MovieComparer</h5>
             </nav>
         </div>
     )
