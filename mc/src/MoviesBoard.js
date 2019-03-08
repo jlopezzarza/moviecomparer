@@ -2,18 +2,20 @@ import React from 'react';
 
 const MoviesBoard = ({movieresults, searchMovieInfo}) => {
   return (
-    <div className="movies-list">
-      {
-        movieresults.map(movie => {
-          return (
-            <div className="movie" key={movie.id}>
-              <ul>
-                <li>{movie.title}  - {movie.release_date} <button onClick={() => {searchMovieInfo(movie.id)}}>go!</button></li>
-              </ul>
-            </div>
-          )
-        })
-      }
+    <div className="movieslist">
+      <ul className="collection">
+        {
+          movieresults.map(movie => {
+            return (
+              <li class="collection-item avatar" key={movie.id}>
+                <span class="title">{movie.title}</span>
+                <p>{movie.release_date}</p>
+                <a href="#!" class="secondary-content"><i class="material-icons" onClick={() =>   {searchMovieInfo(movie.id)}}>send</i></a>
+              </li>
+            )
+          })
+        }
+      </ul>
     </div>
   )
 }

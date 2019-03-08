@@ -2,8 +2,10 @@ import React from 'react';
 
 const Navbar = () => {
     return(
-        <div className="Navbar">
-            <h2 className="Title">Movie Comparer</h2>
+        <div className="navbar-fixed">
+            <nav className="nav-wrapper center-align">
+                <p >MovieComparer</p>
+            </nav>
         </div>
     )
 }

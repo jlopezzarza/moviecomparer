@@ -46,10 +46,14 @@ class Board extends Component {
         }
         return(
             <div>
-                <form onSubmit={this.searchMovies}>
-                    <input type="text" onChange={this.saveParam} />
-                    <button>Submit</button>
-                </form>
+                <div>
+                    <form onSubmit={this.searchMovies}>
+                        <div className="input-field">
+                            <i class="material-icons prefix">movie_filter</i>
+                            <input id="movie_title" type="text" className="validate" onChange={this.saveParam}/>
+                        </div>
+                    </form>
+                </div>
                 {board}
             </div>
         )
