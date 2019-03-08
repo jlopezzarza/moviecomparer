@@ -26,7 +26,9 @@ class Board extends Component {
                         })
                     }
                 })
-                .catch(alert("Oops! There was a problem with the search, try again later"))
+                .catch((error) => {
+                    alert("Oops! There was a problem with the search, try again later");
+                })
         }
     }
 
@@ -39,7 +41,9 @@ class Board extends Component {
                     loadinfo: true
                 })
             })
-            .catch(alert("Oops! There was a problem with the search, try again later"))
+            .catch((error) => {
+                alert("Oops! There was a problem with the search, try again later");
+            })
     }
 
     saveParam = (e) => {
