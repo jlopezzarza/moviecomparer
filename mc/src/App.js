@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Navbar from './Navbar';
 import Board from './Board';
 import 'materialize-css/dist/css/materialize.min.css';
+import './custom.css';
 
 class App extends Component {
   render() {

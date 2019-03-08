@@ -16,12 +16,14 @@ type movie struct {
 	Title       string  `json:"title"`
 	Releasedate string  `json:"release_date"`
 	Cast        []castmember
+	Poster      string `json:"poster_path"`
 }
 type castmember struct {
 	Order     float64 `json:"cast_id"`
 	Character string  `json:"character"`
 	ID        float64 `json:"id"`
 	Name      string  `json:"name"`
+	Photo     string  `json:"profile_path"`
 }
 type moviesresults struct {
 	Total   float64 `json:"total_results"`

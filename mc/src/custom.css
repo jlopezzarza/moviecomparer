@@ -1,0 +1,3 @@
+.collection .collection-item.avatar:not(.circle-clipper) > .circle, .collection .collection-item.avatar :not(.circle-clipper) > .circle{
+    height: auto;
+}
