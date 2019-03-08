@@ -16,19 +16,22 @@ class Board extends Component {
 
     searchMovies = (e) => {
         e.preventDefault();
-        axios.get(encodeURI("http://localhost:8080/searchmovies/" + this.state.param))
-            .then(res => {
-                this.setState({
-                    movieresults: res.data.results,
-                    loadmovies: true
+        if (this.state.param != null ) {
+            axios.get(encodeURI("http://localhost:8080/searchmovies/" + this.state.param))
+                this.state.param.then(res => {
+                    if (res.data.results.length > 0 ) {
+                        this.setState({
+                            movieresults: res.data.results,
+                            loadmovies: true
+                        })
+                    }
                 })
-            })
+        }
     }
 
     searchMovieInfo = (movieid) => {
         axios.get(encodeURI("http://localhost:8080/movieinfo/" + movieid))
             .then(res => {
-                console.log(res.data)
                 this.setState({
                     loadmovies: false,
                     movieinfo: res.data,
