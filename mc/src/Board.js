@@ -18,7 +18,7 @@ class Board extends Component {
         e.preventDefault();
         if (this.state.param != null ) {
             axios.get(encodeURI("http://localhost:8080/searchmovies/" + this.state.param))
-                this.state.param.then(res => {
+                .then(res => {
                     if (res.data.results.length > 0 ) {
                         this.setState({
                             movieresults: res.data.results,
@@ -26,6 +26,7 @@ class Board extends Component {
                         })
                     }
                 })
+                .catch(alert("Oops! There was a problem with the search, try again later"))
         }
     }
 
@@ -38,6 +39,7 @@ class Board extends Component {
                     loadinfo: true
                 })
             })
+            .catch(alert("Oops! There was a problem with the search, try again later"))
     }
 
     saveParam = (e) => {
