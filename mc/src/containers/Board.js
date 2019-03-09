@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import MoviesBoard from './MoviesBoard';
-import CastBoard from './CastBoard';
+import MoviesBoard from '../components/board/MoviesBoard';
+import CastBoard from '../components/board/CastBoard';
 import axios from 'axios';
 
 class Board extends Component {
