@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from './components/Navbar';
-import CardBoard from './containers/CardBoard';
+import CardBoard from './components/CardBoard';
 import 'materialize-css/dist/css/materialize.min.css';
 import './styles/custom.css';
 import SearchBar from './components/board/SearchBar';
