@@ -1,7 +1,7 @@
 import React from 'react';
 import photo from '../../images/photo.png';
 
-const Movies = ({movieresults, searchMovieInfo, cardid}) => {
+const Movies = ({ movieresults, searchMovieInfo, cardid }) => {
   return (
     <div className="card">
       <ul className="collection">
@@ -13,7 +13,7 @@ const Movies = ({movieresults, searchMovieInfo, cardid}) => {
                 <img src={poster} alt="" className="circle responsive-img"></img>
                 <span className="title truncate">{movie.title}</span>
                 <p className="grey-text">{movie.release_date}</p>
-                <a href="#!" className="secondary-content"><i className="material-icons" onClick={() => {searchMovieInfo(movie.id, cardid)}}>send</i></a>
+                <a href="#!" className="secondary-content"><i className="material-icons" onClick={() => { searchMovieInfo(movie.id, cardid) }}>send</i></a>
               </li>
             )
           })

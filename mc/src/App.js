@@ -45,8 +45,8 @@ class App extends Component {
   searchMovieInfo = (movieid, cardid) => {
     axios.get(encodeURI("http://localhost:8080/movieinfo/" + movieid))
       .then(res => {
-        let oldCards = this.state.cards.filter(card => {return card.id !== cardid});
-        let newCard = this.state.cards.filter(card => {return card.id === cardid});
+        let oldCards = this.state.cards.filter(card => { return card.id !== cardid });
+        let newCard = this.state.cards.filter(card => { return card.id === cardid });
         newCard.loadinfo = true;
         newCard.loadmovies = false;
         newCard.movieinfo = res.data;
@@ -67,7 +67,7 @@ class App extends Component {
         <div className="container">
           <SearchBar searchMovies={this.searchMovies} saveParam={this.saveParam} />
         </div>
-        <CardBoard cards={this.state.cards} cardscount={this.state.cardscount} searchMovieInfo={this.searchMovieInfo}/>
+        <CardBoard cards={this.state.cards} cardscount={this.state.cardscount} searchMovieInfo={this.searchMovieInfo} />
       </div>
     );
   }
