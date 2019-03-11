@@ -46,10 +46,11 @@ class App extends Component {
         axios.get(encodeURI("http://localhost:8080/movieinfo/" + movieid))
             .then(res => {
                 let oldCards = this.state.cards.filter(card => { return card.id !== cardid });
-                let newCard = this.state.cards.filter(card => { return card.id === cardid });
-                newCard.loadinfo = true;
-                newCard.loadmovies = false;
-                newCard.movieinfo = res.data;
+                let newCard = {
+                    loadinfo: true,
+                    loadmovies: false,
+                    movieinfo: res.data
+                };
                 this.setState({
                     ...this.state,
                     cards: [...oldCards, newCard]
