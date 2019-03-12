@@ -62,6 +62,7 @@ class App extends Component {
                         loadinfo: true,
                         loadmovies: false,
                         movieinfo: res.data,
+                        id: card.id
                     } : card
                     return  card
                 })
