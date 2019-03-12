@@ -37,7 +37,7 @@ type castresult struct {
 func getdata(url string) (body []byte) {
 	resp, err := http.Get(url)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	body, _ = ioutil.ReadAll(resp.Body)
 	return
@@ -48,7 +48,7 @@ func (movie *movie) getcast() {
 	body := getdata(url)
 	var data castresult
 	if err := json.Unmarshal(body, &data); err != nil {
-		fmt.Println("Search Cast - error with the json: ", err)
+		log.Println("Search Cast - error with the json: ", err)
 	}
 	movie.Cast = data.Cast
 	return
@@ -58,7 +58,7 @@ func (movie *movie) getinfo() {
 	url := fmt.Sprintf("https://api.themoviedb.org/3/movie/%f?api_key=%s", movie.ID, os.Getenv("TMDB_KEY"))
 	body := getdata(url)
 	if err := json.Unmarshal(body, &movie); err != nil {
-		fmt.Println("Search movie - movieresults - json error: ", err)
+		log.Println("Search movie - movieresults - json error: ", err)
 		return
 	}
 	movie.getcast()
@@ -67,8 +67,9 @@ func (movie *movie) getinfo() {
 
 func movieInfo(w http.ResponseWriter, r *http.Request) {
 	searchpar, err := url.QueryUnescape(r.URL.Path[len("/movieinfo/"):])
+	log.Println("Incoming movie info request: ", searchpar)
 	if err != nil {
-		fmt.Println("Movie info - fatal queryescape: ", err)
+		log.Println("Movie info - fatal queryescape: ", err)
 	}
 	if searchpar == "" {
 		fmt.Fprintf(w, "Empty query")
@@ -76,21 +77,22 @@ func movieInfo(w http.ResponseWriter, r *http.Request) {
 	}
 	id, err := strconv.ParseFloat(searchpar, 64)
 	if err != nil {
-		fmt.Println("Movie Info - could not parse float: ", err)
+		log.Println("Movie Info - could not parse float: ", err)
 	}
 	m := movie{ID: id}
 	m.getinfo()
 	result, err := json.Marshal(&m)
 	if err != nil {
-		fmt.Println("Movie Info - marshal - json error: ", err)
+		log.Println("Movie Info - marshal - json error: ", err)
 	}
 	fmt.Fprintf(w, string(result))
 }
 
 func searchmovies(w http.ResponseWriter, r *http.Request) {
 	searchpar, err := url.QueryUnescape(r.URL.Path[len("/searchmovies/"):])
+	log.Println("Incoming movie search request: ", searchpar)
 	if err != nil {
-		fmt.Println("Search movie - fatal queryescape: ", err)
+		log.Println("Search movie - fatal queryescape: ", err)
 	}
 	if searchpar == "" {
 		fmt.Fprintf(w, "Empty query")
@@ -100,21 +102,25 @@ func searchmovies(w http.ResponseWriter, r *http.Request) {
 	body := getdata(url)
 	var data moviesresults
 	if err := json.Unmarshal(body, &data); err != nil {
-		fmt.Println("Search movie - movieresults - json error: ", err)
+		log.Println("Search movie - movieresults - json error: ", err)
 		return
 	}
 	result, err := json.Marshal(&data)
 	if err != nil {
-		fmt.Println("Search movie - resulsts - json error: ", err)
+		log.Println("Search movie - resulsts - json error: ", err)
 	}
 	fmt.Fprintf(w, string(result))
 	return
 }
 
 func main() {
-	static := http.FileServer(http.Dir("static"))
+	static := http.FileServer(http.Dir("mc/build"))
 	http.Handle("/", static)
 	http.HandleFunc("/searchmovies/", searchmovies)
 	http.HandleFunc("/movieinfo/", movieInfo)
+	if _, ok := os.LookupEnv("TMDB_KEY"); !ok {
+		log.Fatal("No api key configured")
+	}
+	log.Println("Starting webserver")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
