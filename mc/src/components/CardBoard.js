@@ -1,7 +1,7 @@
 import React from 'react'
 import Card from './Card'
 
-const CardBoard = ({ cards, cardscount, searchMovieInfo, searched }) => {
+const CardBoard = ({ cards, cardscount, searchMovieInfo, removeCard, searched }) => {
     let gridsize = "col s" + (12 / cardscount)
     return (
         <div className="board row center">
@@ -9,7 +9,7 @@ const CardBoard = ({ cards, cardscount, searchMovieInfo, searched }) => {
                 cards.map((card, i) => {
                     return (
                         <div className={gridsize} key={i}>
-                            <Card card={card} searchMovieInfo={searchMovieInfo} searched={searched}/>
+                            <Card card={card} searchMovieInfo={searchMovieInfo} removeCard={removeCard} searched={searched} />
                         </div>
                     )
                 })

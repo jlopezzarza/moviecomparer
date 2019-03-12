@@ -8,8 +8,20 @@
 
 .card {
     margin: 10px;
+    box-shadow: none;
 }
 
 .notmatched {
     opacity: 0.2;
+}
+
+.card-button {
+    opacity: 0.4;
+}
+.card-button:hover {
+    opacity: 1;
+}
+
+.logo {
+    height: 64px;
 }

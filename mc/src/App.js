@@ -53,6 +53,7 @@ class App extends Component {
             param: e.target.value
         })
     }
+
     searchMovieInfo = (movieid, cardid) => {
         axios.get(encodeURI("http://localhost:8080/movieinfo/" + movieid))
             .then(res => {
@@ -82,6 +83,13 @@ class App extends Component {
             })
     }
 
+    removeCard = (cardid) => {
+        this.setState({
+            ...this.state,
+            cards: this.state.cards.filter(card => { return card.id !== cardid })
+        })
+    }
+
     render() {
         return (
             <div className="">
@@ -89,7 +97,7 @@ class App extends Component {
                 <div className="container">
                     <SearchBar searchMovies={this.searchMovies} saveParam={this.saveParam} />
                 </div>
-                <CardBoard cards={this.state.cards} cardscount={this.state.cardscount} searchMovieInfo={this.searchMovieInfo} searched={this.state.searched} />
+                <CardBoard cards={this.state.cards} cardscount={this.state.cardscount} searchMovieInfo={this.searchMovieInfo} removeCard={this.removeCard} searched={this.state.searched} />
             </div>
         )
     }
