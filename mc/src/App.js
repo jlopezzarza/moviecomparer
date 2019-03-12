@@ -38,6 +38,8 @@ class App extends Component {
                             searched: false,
                             cardscount: count
                         });
+                    } else {
+                        M.toast({html: 'No results for that movie!'})
                     }
                 })
                 .catch((error) => {
