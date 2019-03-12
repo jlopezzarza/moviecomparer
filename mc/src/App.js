@@ -16,6 +16,10 @@ class App extends Component {
     }
 
     searchMovies = (e) => {
+        if (this.state.cardscount > 3) {
+            alert("Movies limit reached, please remove one of the selections")
+            return
+        }
         e.preventDefault();
         if (this.state.param != null) {
             axios.get(encodeURI("http://localhost:8080/searchmovies/" + this.state.param))
