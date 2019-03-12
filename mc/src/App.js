@@ -5,11 +5,14 @@ import 'materialize-css/dist/css/materialize.min.css';
 import './styles/custom.css';
 import SearchBar from './components/board/SearchBar';
 import axios from 'axios';
+import matchCast from './utils/utils';
 
 class App extends Component {
     state = {
         param: null,
-        cards: []
+        cards: [],
+        searched: false,
+        cardscount: null
     }
 
     searchMovies = (e) => {
@@ -28,6 +31,7 @@ class App extends Component {
                         this.setState({
                             ...this.state,
                             cards: [...this.state.cards, card],
+                            searched: false,
                             cardscount: count
                         });
                     }
@@ -56,6 +60,16 @@ class App extends Component {
                     cards: [...oldCards, newCard]
                 })
             })
+            .then(() => {
+                if (this.state.cards.filter(card => "movieinfo" in card).length === this.state.cardscount) {
+                    let matched = matchCast(this.state.cards)
+                    this.setState({
+                        ...this.state,
+                        cards: matched.cards,
+                        searched: matched.searched
+                    })
+                }
+            })
             .catch((error) => {
                 alert("Oops! There was a problem with the search, try again later");
             })
@@ -68,7 +82,7 @@ class App extends Component {
                 <div className="container">
                     <SearchBar searchMovies={this.searchMovies} saveParam={this.saveParam} />
                 </div>
-                <CardBoard cards={this.state.cards} cardscount={this.state.cardscount} searchMovieInfo={this.searchMovieInfo} />
+                <CardBoard cards={this.state.cards} cardscount={this.state.cardscount} searchMovieInfo={this.searchMovieInfo} searched={this.state.searched} />
             </div>
         );
     }
