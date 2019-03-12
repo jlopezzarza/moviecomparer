@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import Navbar from './components/Navbar';
-import CardBoard from './components/CardBoard';
-import 'materialize-css/dist/css/materialize.min.css';
-import M from 'materialize-css';
-import './styles/custom.css';
-import SearchBar from './components/board/SearchBar';
-import axios from 'axios';
-import matchCast from './utils/utils';
+import React, { Component } from 'react'
+import Navbar from './components/Navbar'
+import CardBoard from './components/CardBoard'
+import 'materialize-css/dist/css/materialize.min.css'
+import M from 'materialize-css'
+import './styles/custom.css'
+import SearchBar from './components/board/SearchBar'
+import axios from 'axios'
+import matchCast from './utils/utils'
 
 class App extends Component {
     state = {
@@ -21,7 +21,7 @@ class App extends Component {
             alert("Movies limit reached, please remove one of the selections")
             return
         }
-        e.preventDefault();
+        e.preventDefault()
         if (this.state.param != null) {
             axios.get(encodeURI("http://localhost:8080/searchmovies/" + this.state.param))
                 .then(res => {
@@ -32,13 +32,13 @@ class App extends Component {
                             movieresults: res.data.results,
                             loadmovies: true,
                             loadinfo: false
-                        };
+                        }
                         this.setState({
                             ...this.state,
                             cards: [...this.state.cards, card],
                             searched: false,
                             cardscount: count
-                        });
+                        })
                     } else {
                         M.toast({html: 'No results for that movie!'})
                     }
@@ -56,12 +56,12 @@ class App extends Component {
     searchMovieInfo = (movieid, cardid) => {
         axios.get(encodeURI("http://localhost:8080/movieinfo/" + movieid))
             .then(res => {
-                let oldCards = this.state.cards.filter(card => { return card.id !== cardid });
+                let oldCards = this.state.cards.filter(card => { return card.id !== cardid })
                 let newCard = {
                     loadinfo: true,
                     loadmovies: false,
                     movieinfo: res.data
-                };
+                }
                 this.setState({
                     ...this.state,
                     cards: [...oldCards, newCard]
@@ -78,7 +78,7 @@ class App extends Component {
                 }
             })
             .catch((error) => {
-                alert("Oops! There was a problem with the search, try again later");
+                alert("Oops! There was a problem with the search, try again later")
             })
     }
 
@@ -91,8 +91,8 @@ class App extends Component {
                 </div>
                 <CardBoard cards={this.state.cards} cardscount={this.state.cardscount} searchMovieInfo={this.searchMovieInfo} searched={this.state.searched} />
             </div>
-        );
+        )
     }
 }
 
-export default App;
+export default App

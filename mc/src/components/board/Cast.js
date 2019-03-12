@@ -1,5 +1,5 @@
-import React from 'react';
-import photo from '../../images/photo.png';
+import React from 'react'
+import photo from '../../images/photo.png'
 
 const Cast = ({ movieinfo, searched }) => {
     let poster = movieinfo.poster_path ? "https://image.tmdb.org/t/p/w200/" + movieinfo.poster_path : photo

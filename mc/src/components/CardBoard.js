@@ -1,5 +1,5 @@
-import React from 'react';
-import Card from './Card';
+import React from 'react'
+import Card from './Card'
 
 const CardBoard = ({ cards, cardscount, searchMovieInfo, searched }) => {
     let gridsize = "col s" + (12 / cardscount)

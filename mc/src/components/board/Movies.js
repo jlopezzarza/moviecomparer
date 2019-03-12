@@ -1,5 +1,5 @@
-import React from 'react';
-import photo from '../../images/photo.png';
+import React from 'react'
+import photo from '../../images/photo.png'
 
 const Movies = ({ movieresults, searchMovieInfo, cardid }) => {
     return (
