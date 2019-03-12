@@ -23,7 +23,7 @@ class App extends Component {
         }
         e.preventDefault()
         if (this.state.param != null) {
-            axios.get(encodeURI("http://localhost:8080/searchmovies/" + this.state.param))
+            axios.get(encodeURI("/searchmovies/" + this.state.param))
                 .then(res => {
                     if (res.data.results.length > 0) {
                         let count = this.state.cards.length + 1
@@ -55,15 +55,15 @@ class App extends Component {
     }
 
     searchMovieInfo = (movieid, cardid) => {
-        axios.get(encodeURI("http://localhost:8080/movieinfo/" + movieid))
+        axios.get(encodeURI("/movieinfo/" + movieid))
             .then(res => {
                 let Cards = this.state.cards.map(card => {
-                    let resultCard = (card.id === cardid) ? {
+                    card = (card.id === cardid) ? {
                         loadinfo: true,
                         loadmovies: false,
                         movieinfo: res.data,
                     } : card
-                    return  resultCard
+                    return  card
                 })
 
                 this.setState({
