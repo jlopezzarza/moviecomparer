@@ -13,7 +13,8 @@ class App extends Component {
         param: null,
         cards: [],
         searched: false,
-        cardscount: null
+        cardscount: null,
+        lastid: 0
     }
 
     searchMovies = (e) => {
@@ -28,7 +29,7 @@ class App extends Component {
                     if (res.data.results.length > 0) {
                         let count = this.state.cards.length + 1
                         let card = {
-                            id: count,
+                            id: this.state.lastid,
                             movieresults: res.data.results,
                             loadmovies: true,
                             loadinfo: false
@@ -37,7 +38,8 @@ class App extends Component {
                             ...this.state,
                             cards: [...this.state.cards, card],
                             searched: false,
-                            cardscount: count
+                            cardscount: count,
+                            lastid: this.state.lastid + 1,
                         })
                     } else {
                         M.toast({html: 'No results for that movie!'})
@@ -90,6 +92,7 @@ class App extends Component {
     removeCard = (cardid) => {
         this.setState({
             ...this.state,
+            searched: false,
             cards: this.state.cards.filter(card => { return card.id !== cardid }),
             cardscount: this.state.cardscount -1
         })
