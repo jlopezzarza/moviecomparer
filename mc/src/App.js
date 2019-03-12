@@ -57,15 +57,18 @@ class App extends Component {
     searchMovieInfo = (movieid, cardid) => {
         axios.get(encodeURI("http://localhost:8080/movieinfo/" + movieid))
             .then(res => {
-                let oldCards = this.state.cards.filter(card => { return card.id !== cardid })
-                let newCard = {
-                    loadinfo: true,
-                    loadmovies: false,
-                    movieinfo: res.data
-                }
+                let Cards = this.state.cards.map(card => {
+                    let resultCard = (card.id === cardid) ? {
+                        loadinfo: true,
+                        loadmovies: false,
+                        movieinfo: res.data,
+                    } : card
+                    return  resultCard
+                })
+
                 this.setState({
                     ...this.state,
-                    cards: [...oldCards, newCard]
+                    cards: Cards
                 })
             })
             .then(() => {
@@ -86,7 +89,8 @@ class App extends Component {
     removeCard = (cardid) => {
         this.setState({
             ...this.state,
-            cards: this.state.cards.filter(card => { return card.id !== cardid })
+            cards: this.state.cards.filter(card => { return card.id !== cardid }),
+            cardscount: this.state.cardscount -1
         })
     }
 
