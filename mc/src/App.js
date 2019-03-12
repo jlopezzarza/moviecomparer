@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Navbar from './components/Navbar';
 import CardBoard from './components/CardBoard';
 import 'materialize-css/dist/css/materialize.min.css';
+import M from 'materialize-css';
 import './styles/custom.css';
 import SearchBar from './components/board/SearchBar';
 import axios from 'axios';
