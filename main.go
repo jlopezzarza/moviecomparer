@@ -39,7 +39,15 @@ func getdata(url string) (body []byte) {
 	if err != nil {
 		log.Println(err)
 	}
-	body, _ = ioutil.ReadAll(resp.Body)
+	if resp.Body != nil {
+		body, err = ioutil.ReadAll(resp.Body)
+		if err != nil {
+			log.Println("Getdata error: ", err)
+		}
+	} else {
+		log.Println("Getdata body nil")
+	}
+	resp.Body.Close()
 	return
 }
 
@@ -122,5 +130,8 @@ func main() {
 		log.Fatal("No api key configured")
 	}
 	log.Println("Starting webserver")
+	if _, err := net.LookupIP("api.themoviedb.org"); err != nil {
+		log.Fatalf("API resolution not working: %s", err)
+	}
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

@@ -19,7 +19,7 @@ class App extends Component {
 
     searchMovies = (e) => {
         if (this.state.cardscount > 3) {
-            alert("Movies limit reached, please remove one of the selections")
+            alert("Movies limit reached, please remove one of the selection")
             return
         }
         e.preventDefault()
