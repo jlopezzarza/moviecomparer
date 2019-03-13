@@ -8,7 +8,7 @@ const Navbar = () => {
                 <div className="center">
                     <ul className="">
                         <li><img src={logo} alt="not found" className="logo"></img></li>
-                        <li><a href="#!" class="brand-logo"><h5>Movie Comparer</h5></a></li>
+                        <li><a href="#!" className="brand-logo"><h5>Movie Comparer</h5></a></li>
                     </ul>
                 </div>
             </nav>

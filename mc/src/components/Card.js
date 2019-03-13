@@ -12,7 +12,7 @@ const Card = ({ card, searched, searchMovieInfo, removeCard }) => {
     }
     return (
         <div className="cardresult row">
-            <a href="#!" class="btn btn-small waves-effect waves-light red left card-button" onClick={() => { removeCard(card.id) }}><i class="material-icons">remove</i></a>
+            <a href="#!" className="btn btn-small waves-effect waves-light red left card-button" onClick={() => { removeCard(card.id) }}><i className="material-icons">clear</i></a>
             <div>{board}</div>
         </div>
     )

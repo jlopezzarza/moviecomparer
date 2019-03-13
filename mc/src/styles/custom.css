@@ -25,3 +25,11 @@
 .logo {
     height: 64px;
 }
+
+.toastmatch {
+    color: #4db6ac;
+}
+
+.toastnotmatch {
+    color: #e6ee9c;
+}

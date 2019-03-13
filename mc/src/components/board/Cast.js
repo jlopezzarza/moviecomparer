@@ -3,7 +3,7 @@ import photo from '../../images/photo.png'
 
 const Cast = ({ movieinfo, searched }) => {
     let poster = movieinfo.poster_path ? "https://image.tmdb.org/t/p/w200/" + movieinfo.poster_path : photo
-    let castList = searched ? [...movieinfo.Cast.filter(member => member.matched === true), ...movieinfo.Cast.filter(member => member.matched === false)] : movieinfo.Cast
+    let castList = searched.done ? [...movieinfo.Cast.filter(member => member.matched === true), ...movieinfo.Cast.filter(member => member.matched === false)] : movieinfo.Cast
 
     return (
         <div className="card section">
@@ -20,7 +20,7 @@ const Cast = ({ movieinfo, searched }) => {
                 {
                     castList.map(member => {
                         let castphoto = member.profile_path ? "https://image.tmdb.org/t/p/w200/" + member.profile_path : photo
-                        let style = !(searched) ? "collection-item avatar" :
+                        let style = !(searched.done) ? "collection-item avatar" :
                                     member.matched ? "collection-item avatar matched" : "collection-item avatar notmatched hide-on-small-only"
 
                         return (

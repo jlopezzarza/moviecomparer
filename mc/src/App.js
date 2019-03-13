@@ -4,7 +4,7 @@ import CardBoard from './components/CardBoard'
 import 'materialize-css/dist/css/materialize.min.css'
 import M from 'materialize-css'
 import './styles/custom.css'
-import SearchBar from './components/board/SearchBar'
+import SearchBar from './components/SearchBar'
 import axios from 'axios'
 import matchCast from './utils/utils'
 
@@ -12,7 +12,10 @@ class App extends Component {
     state = {
         param: null,
         cards: [],
-        searched: false,
+        searched: {
+            done: false,
+            results: false
+        },
         cardscount: null,
         lastid: 0
     }
@@ -37,12 +40,15 @@ class App extends Component {
                         this.setState({
                             ...this.state,
                             cards: [...this.state.cards, card],
-                            searched: false,
+                            searched: {
+                                done: false,
+                                results: false
+                            },
                             cardscount: count,
                             lastid: this.state.lastid + 1,
                         })
                     } else {
-                        M.toast({html: 'No results for that movie!'})
+                        M.toast({ html: 'No results for that movie!' })
                     }
                 })
                 .catch((error) => {
@@ -66,7 +72,7 @@ class App extends Component {
                         movieinfo: res.data,
                         id: card.id
                     } : card
-                    return  card
+                    return card
                 })
 
                 this.setState({
@@ -75,13 +81,19 @@ class App extends Component {
                 })
             })
             .then(() => {
-                if (this.state.cards.filter(card => "movieinfo" in card).length === this.state.cardscount) {
+                if ((this.state.cards.filter(card => "movieinfo" in card).length === this.state.cardscount) && (this.state.cardscount > 1)) {
                     let matched = matchCast(this.state.cards)
                     this.setState({
                         ...this.state,
                         cards: matched.cards,
                         searched: matched.searched
                     })
+                    if (this.state.searched.done) {
+                        M.toast({
+                            html: this.state.searched.results ? "Matched! :D" : "Not any match :(",
+                            classes: this.state.searched.results ? "toastmatch" : "toastnotmatch"
+                        })
+                    }
                 }
             })
             .catch((error) => {
@@ -92,9 +104,12 @@ class App extends Component {
     removeCard = (cardid) => {
         this.setState({
             ...this.state,
-            searched: false,
+            searched: {
+                done: false,
+                results: false
+            },
             cards: this.state.cards.filter(card => { return card.id !== cardid }),
-            cardscount: this.state.cardscount -1
+            cardscount: this.state.cardscount - 1
         })
     }
 
@@ -105,6 +120,7 @@ class App extends Component {
                 <div className="container">
                     <SearchBar searchMovies={this.searchMovies} saveParam={this.saveParam} />
                 </div>
+                <div className="divider"></div>
                 <CardBoard cards={this.state.cards} cardscount={this.state.cardscount} searchMovieInfo={this.searchMovieInfo} removeCard={this.removeCard} searched={this.state.searched} />
             </div>
         )
