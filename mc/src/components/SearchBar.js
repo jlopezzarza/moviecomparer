@@ -7,7 +7,7 @@ const SearchBar = ({ searchMovies, saveParam }) => {
                 <div className="input-field">
                     <i className="material-icons prefix">movie_filter</i>
                     <input id="movie_title" type="text" className="" onChange={saveParam} />
-                    <label htmlFor="movie_title">Enter movie titles to compare their cast below!</label>
+                    <label htmlFor="movie_title">Enter movie titles to search and compare</label>
                 </div>
             </form>
         </div>

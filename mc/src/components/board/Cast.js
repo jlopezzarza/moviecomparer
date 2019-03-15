@@ -8,11 +8,11 @@ const Cast = ({ movieinfo, searched }) => {
     return (
         <div className="card section">
             <div className="row">
-                <div className="col s6 right-align">
+                <div className="col l6 m12 right-align">
                     <h5 className="truncate">{movieinfo.title}</h5>
-                    <p className="grey-text">{movieinfo.release_date}</p>
+                    <p className="grey-text hide-on-small-only">{movieinfo.release_date}</p>
                 </div>
-                <div className="col s2 center hide-on-small-only">
+                <div className="col m2 center hide-on-small-only">
                     <img src={poster} alt="" className="responsive-img "></img>
                 </div>
             </div>
