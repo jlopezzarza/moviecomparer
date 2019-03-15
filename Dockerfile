@@ -1,5 +1,5 @@
 ## Golang Builder
-FROM golang:alpine AS builder
+FROM golang:alpine AS backendbuilder
 WORKDIR /app/
 COPY ./main.go .
 RUN GOOS=linux CGO_ENABLED=0 go build -a -o moviecomparer
@@ -7,6 +7,8 @@ RUN GOOS=linux CGO_ENABLED=0 go build -a -o moviecomparer
 ## NPM builder
 FROM node:8 AS frontendbuilder
 WORKDIR /app/
+COPY ./mc/package.json .
+RUN npm install
 COPY ./mc .
 RUN npm run build
 
