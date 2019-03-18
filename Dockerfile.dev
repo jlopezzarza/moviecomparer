@@ -1,0 +1,14 @@
+FROM golang:alpine
+
+#COPY ./build.env .
+
+#RUN sh build.env
+
+RUN apk update && apk add --no-cache ca-certificates
+RUN update-ca-certificates
+
+WORKDIR /app/
+
+COPY ./main.go .
+
+CMD ["go", "run", "main.go"]
