@@ -28,18 +28,14 @@ class Card extends Component {
             style: this.state.expanded ? "scale-trasition" : "scale-transition scale-out collapsedboard",
             button: this.state.expanded ? "unfold_more" : "unfold_less",
         }
-
-        let status = this.state.expanded ? "" :
-            this.props.card.loadmovies ? "movie" :
-                this.props.card.loadinfo && this.props.searched.results ? "done people" :
-                    this.props.searched.results ? "done people" : "people_outline"
+        let collapsedName = !this.state.expanded ? <h6 className="show-on-medium-and-up">{this.props.card.movieinfo.title}</h6> : ""
 
         return (
             <div className="cardresult row">
                 <a href="#!" className="btn btn-small waves-effect waves-light red left card-button" onClick={() => { this.props.removeCard(this.props.card.id) }}><i className="material-icons tiny">clear</i></a>
-                <a href="#!" className="btn btn-small waves-effect waves-light amber left card-button" onClick={this.collapseCard}><i className="material-icons tiny">{display.button}</i></a>
-                <div className="right">
-                    <i className="material-icons">{status}</i>
+                <a href="#!" className={"btn btn-small waves-effect waves-light amber left card-button " + ((!this.state.expanded && this.props.searched.results) ? "pulse" : "")} onClick={this.collapseCard}><i className="material-icons tiny">{display.button}</i></a>
+                <div className="center valign-wrapper">
+                    {collapsedName}
                 </div>
                 <div className={display.style}>
                     <Cast movieinfo={this.props.card.movieinfo} searched={this.props.searched} />
