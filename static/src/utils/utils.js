@@ -1,4 +1,4 @@
-export default function matchCast(cards) {
+export function matchCast(cards) {
     let searched = {
         done: true,
         results: false
@@ -16,4 +16,8 @@ export default function matchCast(cards) {
         }
     }
     return { cards: cards, searched: searched }
+}
+
+export function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

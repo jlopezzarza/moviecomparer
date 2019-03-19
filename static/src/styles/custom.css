@@ -38,3 +38,8 @@
 .collapsedboard {
     display: none;
 }
+
+.autocompleteimg {
+    max-width: auto;
+    max-height: 70px;
+}

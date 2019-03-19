@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
 import Navbar from './components/Navbar'
-import CardBoard from './components/CardBoard'
+import CardBoard from './components/Board'
 import 'materialize-css/dist/css/materialize.min.css'
 import M from 'materialize-css'
 import './styles/custom.css'
 import SearchBar from './components/SearchBar'
 import axios from 'axios'
-import matchCast from './utils/utils'
+import { matchCast } from './utils/utils'
 
 class App extends Component {
     state = {
-        param: null,
         cards: [],
         searched: {
             done: false,
@@ -20,64 +19,17 @@ class App extends Component {
         lastid: 0
     }
 
-    searchMovies = (e) => {
-        if (this.state.cardscount > 3) {
-            alert("Movies limit reached, please remove one of the selection")
-            return
-        }
-        e.preventDefault()
-        if (this.state.param != null) {
-            axios.get(encodeURI("/api/searchmovies/" + this.state.param))
-                .then(res => {
-                    if (res.data.results.length > 0) {
-                        let count = this.state.cards.length + 1
-                        let card = {
-                            id: this.state.lastid,
-                            movieresults: res.data.results,
-                            loadmovies: true,
-                            loadinfo: false
-                        }
-                        this.setState({
-                            ...this.state,
-                            cards: [...this.state.cards, card],
-                            searched: {
-                                done: false,
-                                results: false
-                            },
-                            cardscount: count,
-                            lastid: this.state.lastid + 1,
-                        })
-                    } else {
-                        M.toast({ html: 'No results for that movie!' })
-                    }
-                })
-                .catch((error) => {
-                    alert("Oops! There was a problem with the search, try again later");
-                })
-        }
-    }
-    saveParam = (e) => {
-        this.setState({
-            param: e.target.value
-        })
-    }
-
-    searchMovieInfo = (movieid, cardid) => {
+    searchMovieInfo = (movieid) => {
         axios.get(encodeURI("/api/movieinfo/" + movieid))
             .then(res => {
-                let Cards = this.state.cards.map(card => {
-                    card = (card.id === cardid) ? {
-                        loadinfo: true,
-                        loadmovies: false,
-                        movieinfo: res.data,
-                        id: card.id
-                    } : card
-                    return card
-                })
-
+                let card = {
+                    id: this.state.lastid,
+                    movieinfo: res.data,
+                }
                 this.setState({
-                    ...this.state,
-                    cards: Cards
+                    cards: [...this.state.cards, card],
+                    lastid: this.state.lastid + 1,
+                    cardscount: this.state.cards.length + 1
                 })
             })
             .then(() => {
@@ -117,8 +69,8 @@ class App extends Component {
         return (
             <div className="">
                 <Navbar />
-                <div className="container">
-                    <SearchBar searchMovies={this.searchMovies} saveParam={this.saveParam} />
+                <div className="container center">
+                    <SearchBar searchMovieInfo={this.searchMovieInfo} />
                 </div>
                 <div className="divider"></div>
                 <CardBoard cards={this.state.cards} cardscount={this.state.cardscount} searchMovieInfo={this.searchMovieInfo} removeCard={this.removeCard} searched={this.state.searched} />
