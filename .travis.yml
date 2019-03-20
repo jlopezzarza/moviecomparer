@@ -2,6 +2,10 @@ sudo: required
 services:
   - docker
 
+branches:
+  only:
+    - master
+
 script:
   - docker build -t jlopezzarza/moviecomparer-frontend ./static
   - docker build -t jlopezzarza/moviecomparer-api .
