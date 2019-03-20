@@ -1,14 +1,16 @@
-# Movie Comparer!
+# Movie Comparer
 
-The objective of the project is to be able to compare two movies or tv shows
+[![Build Status](https://travis-ci.org/jlopezzarza/moviecomparer.svg?branch=master)](https://travis-ci.org/jlopezzarza/moviecomparer)
+
+The objective of the website is to be able to compare two movies or tv shows
 and match the cast appearing in both titles.
 
-Thanks to the folks of https://www.themoviedb.org/ for providing that awesome
+Many thanks to the folks of https://www.themoviedb.org/ for providing that awesome
 API!
 
 ## Development
 
-The backend is a basic API in Golang and the frontend is created with ReactJS.
+The backend is a basic API written in Golang and the frontend is written in ReactJS.
 
 To ease the development process I've been using docker-compose to run all the
 services.
