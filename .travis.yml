@@ -3,10 +3,10 @@ services:
   - docker
 
 script:
-  - docker build -t jlopezarza/moviecomparer-frontend ./static
-  - docker build -t jlopezarza/moviecomparer-api .
+  - docker build -t jlopezzarza/moviecomparer-frontend ./static
+  - docker build -t jlopezzarza/moviecomparer-api .
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
-  - docker push jlopezarza/moviecomparer-frontend
-  - docker push jlopezarza/moviecomparer-api
+  - docker push jlopezzarza/moviecomparer-frontend
+  - docker push jlopezzarza/moviecomparer-api
