@@ -123,8 +123,6 @@ func searchmovies(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	static := http.FileServer(http.Dir("static/build"))
-	http.Handle("/", static)
 	http.HandleFunc("/searchmovies/", searchmovies)
 	http.HandleFunc("/movieinfo/", movieInfo)
 	if _, ok := os.LookupEnv("TMDB_KEY"); !ok {
