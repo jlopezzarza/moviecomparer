@@ -5,6 +5,8 @@ RUN update-ca-certificates
 
 WORKDIR /app/
 
-COPY ./*.go .
+COPY . .
 
-CMD ["go", "run", "*.go"]
+RUN GOOS=linux CGO_ENABLED=0 go build -a -o moviecomparer
+
+CMD ["./moviecomparer"]
