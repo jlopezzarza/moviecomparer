@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -9,32 +8,9 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"strconv"
 )
 
-type movie struct {
-	ID          float64 `json:"id"`
-	Title       string  `json:"title"`
-	Releasedate string  `json:"release_date"`
-	Cast        []castmember
-	Poster      string `json:"poster_path"`
-}
-type castmember struct {
-	Order     float64 `json:"cast_id"`
-	Character string  `json:"character"`
-	ID        float64 `json:"id"`
-	Name      string  `json:"name"`
-	Photo     string  `json:"profile_path"`
-}
-type moviesresults struct {
-	Total   float64 `json:"total_results"`
-	Results []movie `json:"results"`
-}
-type castresult struct {
-	ID   float64      `json:"id"`
-	Cast []castmember `json:"cast"`
-}
-
+// Make Http request to the target url
 func getdata(url string) (body []byte) {
 	resp, err := http.Get(url)
 	if err != nil {
@@ -52,28 +28,7 @@ func getdata(url string) (body []byte) {
 	return
 }
 
-func (movie *movie) getcast() {
-	url := fmt.Sprintf("https://api.themoviedb.org/3/movie/%f/credits?api_key=%s", movie.ID, os.Getenv("TMDB_KEY"))
-	body := getdata(url)
-	var data castresult
-	if err := json.Unmarshal(body, &data); err != nil {
-		log.Println("Search Cast - error with the json: ", err)
-	}
-	movie.Cast = data.Cast
-	return
-}
-
-func (movie *movie) getinfo() {
-	url := fmt.Sprintf("https://api.themoviedb.org/3/movie/%f?api_key=%s", movie.ID, os.Getenv("TMDB_KEY"))
-	body := getdata(url)
-	if err := json.Unmarshal(body, &movie); err != nil {
-		log.Println("Search movie - movieresults - json error: ", err)
-		return
-	}
-	movie.getcast()
-	return
-}
-
+// API Endpoint to get the movie information
 func movieInfo(w http.ResponseWriter, r *http.Request) {
 	searchpar, err := url.QueryUnescape(r.URL.Path[len("/movieinfo/"):])
 	log.Println("Incoming movie info request: ", searchpar)
@@ -84,20 +39,12 @@ func movieInfo(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Empty query")
 		return
 	}
-	id, err := strconv.ParseFloat(searchpar, 64)
-	if err != nil {
-		log.Println("Movie Info - could not parse float: ", err)
-	}
-	m := movie{ID: id}
-	m.getinfo()
-	result, err := json.Marshal(&m)
-	if err != nil {
-		log.Println("Movie Info - marshal - json error: ", err)
-	}
+	result := getMovie(searchpar)
 	fmt.Fprintf(w, string(result))
 }
 
-func searchmovies(w http.ResponseWriter, r *http.Request) {
+// API Endpoint to search for the movies
+func searchMovies(w http.ResponseWriter, r *http.Request) {
 	searchpar, err := url.QueryUnescape(r.URL.Path[len("/searchmovies/"):])
 	log.Println("Incoming movie search request: ", searchpar)
 	if err != nil {
@@ -107,23 +54,13 @@ func searchmovies(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Empty query")
 		return
 	}
-	url := fmt.Sprintf("https://api.themoviedb.org/3/search/movie?api_key=%s&query=%s", os.Getenv("TMDB_KEY"), url.QueryEscape(searchpar))
-	body := getdata(url)
-	var data moviesresults
-	if err := json.Unmarshal(body, &data); err != nil {
-		log.Println("Search movie - movieresults - json error: ", err)
-		return
-	}
-	result, err := json.Marshal(&data)
-	if err != nil {
-		log.Println("Search movie - resulsts - json error: ", err)
-	}
+	result := doSearch(searchpar)
 	fmt.Fprintf(w, string(result))
 	return
 }
 
 func main() {
-	http.HandleFunc("/searchmovies/", searchmovies)
+	http.HandleFunc("/searchmovies/", searchMovies)
 	http.HandleFunc("/movieinfo/", movieInfo)
 	if _, ok := os.LookupEnv("TMDB_KEY"); !ok {
 		log.Fatal("No api key configured")
