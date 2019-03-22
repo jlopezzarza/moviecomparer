@@ -1,0 +1,11 @@
+FROM golang:alpine
+
+WORKDIR /app/
+
+RUN apk update && apk add --no-cache git
+
+COPY . .
+
+RUN ["go", "build", "-o", "tmdbidexporter"]
+
+CMD ["./tmdbidexporter"]

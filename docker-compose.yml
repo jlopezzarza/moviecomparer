@@ -28,3 +28,10 @@ services:
     image: redis
     ports:
       - "6379:6379"
+  tmdbidexporter:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./tmdbidexporter
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
