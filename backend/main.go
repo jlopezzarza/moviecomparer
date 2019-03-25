@@ -59,15 +59,23 @@ func searchMovies(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func main() {
-	http.HandleFunc("/searchmovies/", searchMovies)
-	http.HandleFunc("/movieinfo/", movieInfo)
+// Check for the environment variables used by the aplication
+func preflightCheck() {
 	if _, ok := os.LookupEnv("TMDB_KEY"); !ok {
 		log.Fatal("No api key configured")
 	}
+}
+
+func main() {
+	preflightCheck()
+
+	http.HandleFunc("/searchmovies/", searchMovies)
+	http.HandleFunc("/movieinfo/", movieInfo)
+
 	log.Println("Starting webserver")
 	if _, err := net.LookupIP("api.themoviedb.org"); err != nil {
 		log.Fatalf("API resolution not working: %s", err)
 	}
 	log.Fatal(http.ListenAndServe(":8080", nil))
+
 }
