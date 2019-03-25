@@ -1,7 +1,7 @@
 ## Golang Builder
 FROM golang:alpine AS builder
 WORKDIR /app/
-COPY ./main.go .
+COPY . .
 RUN GOOS=linux CGO_ENABLED=0 go build -a -o moviecomparer
 
 ## Final container

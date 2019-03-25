@@ -9,10 +9,10 @@ services:
     volumes:
       - /app/node_modules
       - ./static:/app
-  back:
+  backend:
     build:
       dockerfile: Dockerfile.dev
-      context: .
+      context: ./backend
     ports:
       - "8080:8080"
     environment:
