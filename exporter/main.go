@@ -70,10 +70,10 @@ func main() {
 
 	f := "movies.txt.gz"
 
-	//// Download and store the file
-	//if err := downloadFile(f, urlGen()); err != nil {
-	//	log.Fatal("File not downloaded")
-	//}
+	// Download and store the file
+	if err := downloadFile(f, urlGen()); err != nil {
+		log.Fatal("File not downloaded")
+	}
 
 	cfg := elasticsearch.Config{
 		Addresses: []string{
