@@ -6,7 +6,23 @@ import (
 	"log"
 	"net/url"
 	"os"
+	"strings"
 )
+
+// Look for the movie in elasticSearch
+func esSearch(title string) {
+	query := fmt.Sprintf(`{"query" : { "match_all" : { "title" : "%s" } }}`, title)
+	res, err := esConn.Search(
+		esConn.Search.WithIndex("mctitleids"),
+		esConn.Search.WithBody(strings.NewReader(query)),
+	)
+	if err != nil {
+		log.Println("Error in the elasticserch query: ", err)
+	}
+	defer res.Body.Close()
+
+	log.Println("Result: ", res.String())
+}
 
 // Search for the movies matching the string
 func doSearch(searchPar string) (result []byte) {

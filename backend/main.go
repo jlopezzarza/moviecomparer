@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+
+	"github.com/elastic/go-elasticsearch"
 )
 
 // Make Http request to the target url
@@ -61,18 +63,50 @@ func searchMovies(w http.ResponseWriter, r *http.Request) {
 
 // Check for the environment variables used by the aplication
 func preflightCheck() {
+	log.Println("Doing preflight checks...")
 	if _, ok := os.LookupEnv("TMDB_KEY"); !ok {
 		log.Fatal("No api key configured")
 	}
+	if _, ok := os.LookupEnv("ES_HOST"); !ok {
+		log.Fatal("No elasticsearch host configured")
+	}
+	if _, ok := os.LookupEnv("ES_PORT"); !ok {
+		log.Fatal("No  elasticsearch port configured")
+	}
+}
+
+var esConn *elasticsearch.Client
+
+// Connect to elasticsearch
+func esConnect() {
+	log.Println("Connecting to Elastich Search")
+	addr := fmt.Sprintf("http://%s:%s", os.Getenv("ES_HOST"), os.Getenv("ES_PORT"))
+	cfg := elasticsearch.Config{
+		Addresses: []string{
+			addr,
+		},
+	}
+	es, err := elasticsearch.NewClient(cfg)
+	if err != nil {
+		log.Fatal("Unable to connect to ES")
+	}
+	esConn = es
+	return
 }
 
 func main() {
+	log.Println("Loading!")
 	preflightCheck()
+
+	// Stablish connection to ES
+	esConnect()
+
+	log.Println("Starting webserver")
 
 	http.HandleFunc("/searchmovies/", searchMovies)
 	http.HandleFunc("/movieinfo/", movieInfo)
 
-	log.Println("Starting webserver")
+	// Check out the DNS resolution to the api
 	if _, err := net.LookupIP("api.themoviedb.org"); err != nil {
 		log.Fatalf("API resolution not working: %s", err)
 	}
