@@ -11,7 +11,7 @@ import (
 )
 
 // Make Http request to the target url
-func getdata(url string) (body []byte) {
+func getData(url string) (body []byte) {
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Println(err)

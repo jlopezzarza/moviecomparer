@@ -15,6 +15,7 @@ type movie struct {
 	Cast        []castmember
 	Poster      string `json:"poster_path"`
 }
+
 type castmember struct {
 	Order     float64 `json:"cast_id"`
 	Character string  `json:"character"`
@@ -22,19 +23,21 @@ type castmember struct {
 	Name      string  `json:"name"`
 	Photo     string  `json:"profile_path"`
 }
+
 type moviesresults struct {
 	Total   float64 `json:"total_results"`
 	Results []movie `json:"results"`
 }
+
 type castresult struct {
 	ID   float64      `json:"id"`
 	Cast []castmember `json:"cast"`
 }
 
 // get the cast of the movie object
-func (movie *movie) getcast() {
+func (movie *movie) getCast() {
 	url := fmt.Sprintf("https://api.themoviedb.org/3/movie/%f/credits?api_key=%s", movie.ID, os.Getenv("TMDB_KEY"))
-	body := getdata(url)
+	body := getData(url)
 	var data castresult
 	if err := json.Unmarshal(body, &data); err != nil {
 		log.Println("Search Cast - error with the json: ", err)
@@ -44,14 +47,14 @@ func (movie *movie) getcast() {
 }
 
 // get the information with que movie ID
-func (movie *movie) getinfo() {
+func (movie *movie) getInfo() {
 	url := fmt.Sprintf("https://api.themoviedb.org/3/movie/%f?api_key=%s", movie.ID, os.Getenv("TMDB_KEY"))
-	body := getdata(url)
+	body := getData(url)
 	if err := json.Unmarshal(body, &movie); err != nil {
 		log.Println("Search movie - movieresults - json error: ", err)
 		return
 	}
-	movie.getcast()
+	movie.getCast()
 	return
 }
 
@@ -62,7 +65,7 @@ func getMovie(searchpar string) (result []byte) {
 		log.Println("Movie Info - could not parse float: ", err)
 	}
 	m := movie{ID: id}
-	m.getinfo()
+	m.getInfo()
 	result, err = json.Marshal(&m)
 	if err != nil {
 		log.Println("Movie Info - marshal - json error: ", err)
