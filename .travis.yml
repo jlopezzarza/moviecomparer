@@ -8,7 +8,7 @@ branches:
 
 script:
   - docker build -t jlopezzarza/moviecomparer-frontend ./static
-  - docker build -t jlopezzarza/moviecomparer-api .
+  - docker build -t jlopezzarza/moviecomparer-api ./backend
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
