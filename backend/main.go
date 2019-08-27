@@ -68,11 +68,17 @@ func preflightCheck() {
 	}
 }
 
+func root(w http.ResponseWriter, r *http.Request) {
+	log.Println("/ - incoming request: ", r.URL)
+	return
+}
+
 func main() {
 	preflightCheck()
 
 	http.HandleFunc("/searchmovies/", searchMovies)
 	http.HandleFunc("/movieinfo/", movieInfo)
+	http.HandleFunc("/", root)
 
 	log.Println("Starting webserver")
 	if _, err := net.LookupIP("api.themoviedb.org"); err != nil {
