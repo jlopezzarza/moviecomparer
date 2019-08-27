@@ -30,6 +30,7 @@ func getData(url string) (body []byte) {
 
 // API Endpoint to get the movie information
 func movieInfo(w http.ResponseWriter, r *http.Request) {
+	log.Println("Movie info - incoming request: ", r.URL)
 	searchpar, err := url.QueryUnescape(r.URL.Path[len("/movieinfo/"):])
 	log.Println("Incoming movie info request: ", searchpar)
 	if err != nil {
@@ -45,6 +46,7 @@ func movieInfo(w http.ResponseWriter, r *http.Request) {
 
 // API Endpoint to search for the movies
 func searchMovies(w http.ResponseWriter, r *http.Request) {
+	log.Println("Search movies - incoming request: ", r.URL)
 	searchpar, err := url.QueryUnescape(r.URL.Path[len("/searchmovies/"):])
 	log.Println("Incoming movie search request: ", searchpar)
 	if err != nil {
