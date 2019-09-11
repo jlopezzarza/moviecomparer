@@ -18,7 +18,3 @@ services.
 In order to run correctly, you need to specify a `.env` file with a TMDB_KEY
 variable containing the API token to connect to https://api.themoviedb.org
 
-## Production
-
-The code is deployed in a Kubernetes cluster on GKE. To see the results, you
-can visit http://moviecomparer.com
